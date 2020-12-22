@@ -212,7 +212,11 @@ def on_middle_double_click(callback, args=()):
     """
     return on_button(callback, args, [MIDDLE], [DOUBLE])
 
-
+def on_right_double_click(callback, args=()):
+    """
+    Invokes `callback` with `args` when the left button is double clicked.
+    """
+    return on_button(callback, args, [RIGHT], [DOUBLE])
 
 def on_right_click(callback, args=()):
     """ Invokes `callback` with `args` when the right button is clicked. """
