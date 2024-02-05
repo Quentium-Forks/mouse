@@ -1,3 +1,14 @@
+# 1.0.0
+
+- [Linux] Call UI_SET_KEYBIT on all key codes.
+- [All] Add the on_pressed(), on_middle_double_click() and on_right_double_click() functions.
+- [Mac] Add macos (darwin) support.
+- [Windows] Fix x and x2 buttons not working on windows.
+- [All] Ensure move duration.
+- [Linux] Fix linux segfault when no display is available.
+- [Windows] Update injected event on_button filter.
+- [All] Removed Python 2 support & reorganized imports.
+
 # 0.7.1
 
 - Fixed errors and incorrect information on setup.py.

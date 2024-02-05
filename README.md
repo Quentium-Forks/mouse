@@ -14,7 +14,6 @@ _Huge thanks to [Kirill Pavlov](http://kirillpavlov.com/) for donating the packa
 - Works with **MacOS** (requires granting accessibility permissions to terminal/python in System Preferences -> Security \& Privacy)
 - **Pure Python**, no C modules to be compiled.
 - **Zero dependencies** on Windows and Linux. Trivial to install and deploy, just copy the files.
-- **Python 2 and 3**.
 - Includes **high level API** (e.g. [record](#mouse.record) and [play](#mouse.play).
 - Events automatically captured in separate thread, doesn't block main program.
 - Tested and documented.
@@ -45,39 +44,59 @@ Then check the [API docs](https://github.com/boppreh/mouse#api) to see what feat
 # API
 #### Table of Contents
 
-- [mouse.**ButtonEvent**](#mouse.ButtonEvent)
-- [mouse.**DOUBLE**](#mouse.DOUBLE)
-- [mouse.**DOWN**](#mouse.DOWN)
-- [mouse.**LEFT**](#mouse.LEFT)
-- [mouse.**MIDDLE**](#mouse.MIDDLE)
-- [mouse.**MoveEvent**](#mouse.MoveEvent)
-- [mouse.**RIGHT**](#mouse.RIGHT)
-- [mouse.**UP**](#mouse.UP)
-- [mouse.**WheelEvent**](#mouse.WheelEvent)
-- [mouse.**X**](#mouse.X)
-- [mouse.**X2**](#mouse.X2)
-- [mouse.**version**](#mouse.version)
-- [mouse.**is\_pressed**](#mouse.is_pressed)
-- [mouse.**press**](#mouse.press) *(aliases: `hold`)*
-- [mouse.**release**](#mouse.release)
-- [mouse.**click**](#mouse.click)
-- [mouse.**double\_click**](#mouse.double_click)
-- [mouse.**right\_click**](#mouse.right_click)
-- [mouse.**wheel**](#mouse.wheel)
-- [mouse.**move**](#mouse.move)
-- [mouse.**drag**](#mouse.drag)
-- [mouse.**on\_button**](#mouse.on_button)
-- [mouse.**on\_click**](#mouse.on_click)
-- [mouse.**on\_double\_click**](#mouse.on_double_click)
-- [mouse.**on\_right\_click**](#mouse.on_right_click)
-- [mouse.**on\_middle\_click**](#mouse.on_middle_click)
-- [mouse.**wait**](#mouse.wait)
-- [mouse.**get\_position**](#mouse.get_position)
-- [mouse.**hook**](#mouse.hook)
-- [mouse.**unhook**](#mouse.unhook)
-- [mouse.**unhook\_all**](#mouse.unhook_all)
-- [mouse.**record**](#mouse.record)
-- [mouse.**play**](#mouse.play) *(aliases: `replay`)*
+- [mouse](#mouse)
+  - [Features](#features)
+  - [Usage](#usage)
+  - [Known limitations:](#known-limitations)
+- [API](#api)
+      - [Table of Contents](#table-of-contents)
+  - [class mouse.**ButtonEvent**](#class-mousebuttonevent)
+    - [ButtonEvent.**button**](#buttoneventbutton)
+    - [ButtonEvent.**count**(self, value, /)](#buttoneventcountself-value-)
+    - [ButtonEvent.**event\_type**](#buttoneventevent_type)
+    - [ButtonEvent.**index**(self, value, start=0, stop=9223372036854775807, /)](#buttoneventindexself-value-start0-stop9223372036854775807-)
+    - [ButtonEvent.**time**](#buttoneventtime)
+  - [mouse.**DOUBLE**](#mousedouble)
+  - [mouse.**DOWN**](#mousedown)
+  - [mouse.**LEFT**](#mouseleft)
+  - [mouse.**MIDDLE**](#mousemiddle)
+  - [class mouse.**MoveEvent**](#class-mousemoveevent)
+    - [MoveEvent.**count**(self, value, /)](#moveeventcountself-value-)
+    - [MoveEvent.**index**(self, value, start=0, stop=9223372036854775807, /)](#moveeventindexself-value-start0-stop9223372036854775807-)
+    - [MoveEvent.**time**](#moveeventtime)
+    - [MoveEvent.**x**](#moveeventx)
+    - [MoveEvent.**y**](#moveeventy)
+  - [mouse.**RIGHT**](#mouseright)
+  - [mouse.**UP**](#mouseup)
+  - [class mouse.**WheelEvent**](#class-mousewheelevent)
+    - [WheelEvent.**count**(self, value, /)](#wheeleventcountself-value-)
+    - [WheelEvent.**delta**](#wheeleventdelta)
+    - [WheelEvent.**index**(self, value, start=0, stop=9223372036854775807, /)](#wheeleventindexself-value-start0-stop9223372036854775807-)
+    - [WheelEvent.**time**](#wheeleventtime)
+  - [mouse.**X**](#mousex)
+  - [mouse.**X2**](#mousex2)
+  - [mouse.**version**](#mouseversion)
+  - [mouse.**is\_pressed**(button='left')](#mouseis_pressedbuttonleft)
+  - [mouse.**press**(button='left')](#mousepressbuttonleft)
+  - [mouse.**release**(button='left')](#mousereleasebuttonleft)
+  - [mouse.**click**(button='left')](#mouseclickbuttonleft)
+  - [mouse.**double\_click**(button='left')](#mousedouble_clickbuttonleft)
+  - [mouse.**right\_click**()](#mouseright_click)
+  - [mouse.**wheel**(delta=1)](#mousewheeldelta1)
+  - [mouse.**move**(x, y, absolute=True, duration=0, steps\_per\_second=120.0)](#mousemovex-y-absolutetrue-duration0-steps_per_second1200)
+  - [mouse.**drag**(start\_x, start\_y, end\_x, end\_y, absolute=True, duration=0)](#mousedragstart_x-start_y-end_x-end_y-absolutetrue-duration0)
+  - [mouse.**on\_button**(callback, args=(), buttons=('left', 'middle', 'right', 'x', 'x2'), types=('up', 'down', 'double'))](#mouseon_buttoncallback-args-buttonsleft-middle-right-x-x2-typesup-down-double)
+  - [mouse.**on\_click**(callback, args=())](#mouseon_clickcallback-args)
+  - [mouse.**on\_double\_click**(callback, args=())](#mouseon_double_clickcallback-args)
+  - [mouse.**on\_right\_click**(callback, args=())](#mouseon_right_clickcallback-args)
+  - [mouse.**on\_middle\_click**(callback, args=())](#mouseon_middle_clickcallback-args)
+  - [mouse.**wait**(button='left', target\_types=('up', 'down', 'double'))](#mousewaitbuttonleft-target_typesup-down-double)
+  - [mouse.**get\_position**()](#mouseget_position)
+  - [mouse.**hook**(callback)](#mousehookcallback)
+  - [mouse.**unhook**(callback)](#mouseunhookcallback)
+  - [mouse.**unhook\_all**()](#mouseunhook_all)
+  - [mouse.**record**(button='right', target\_types=('down',))](#mouserecordbuttonright-target_typesdown)
+  - [mouse.**play**(events, speed\_factor=1.0, include\_clicks=True, include\_moves=True, include\_wheel=True)](#mouseplayevents-speed_factor10-include_clickstrue-include_movestrue-include_wheeltrue)
 
 
 <a name="mouse.ButtonEvent"/>
@@ -271,7 +290,7 @@ Alias for field number 1
 
 ## mouse.**version**
 ```py
-= '0.7.1'
+= '1.0.0'
 ```
 
 <a name="mouse.is_pressed"/>
