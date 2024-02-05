@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import struct
-from subprocess import check_output
-import re
+
 from ._nixcommon import EV_KEY, EV_REL, EV_MSC, EV_SYN, EV_ABS, aggregate_devices, ensure_root
 from ._mouse_event import ButtonEvent, WheelEvent, MoveEvent, LEFT, RIGHT, MIDDLE, X, X2, UP, DOWN
 
@@ -12,6 +11,7 @@ from ctypes import c_uint32, c_uint, c_int, c_void_p, byref
 display = None
 window = None
 x11 = None
+
 def build_display():
     global display, window, x11
     if x11: return

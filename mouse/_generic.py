@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
 from threading import Thread, Lock
+from queue import Queue
 import traceback
-import functools
-
-try:
-    from queue import Queue
-except ImportError:
-    from Queue import Queue
 
 class GenericListener(object):
     lock = Lock()
@@ -58,7 +53,7 @@ class GenericListener(object):
             if self.pre_process_event(event):
                 self.invoke_handlers(event)
             self.queue.task_done()
-            
+
     def add_handler(self, handler):
         """
         Adds a function to receive each event captured, starting the capturing

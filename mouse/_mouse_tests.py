@@ -2,8 +2,8 @@
 import unittest
 import time
 
-from ._mouse_event import MoveEvent, ButtonEvent, WheelEvent, LEFT, RIGHT, MIDDLE, X, X2, UP, DOWN, DOUBLE
 import mouse
+from ._mouse_event import MoveEvent, ButtonEvent, WheelEvent, LEFT, RIGHT, MIDDLE, X, X2, UP, DOWN, DOUBLE
 
 class FakeOsMouse(object):
     def __init__(self):
@@ -38,7 +38,7 @@ class FakeOsMouse(object):
 class TestMouse(unittest.TestCase):
     @staticmethod
     def setUpClass():
-        mouse._os_mouse= FakeOsMouse()
+        mouse._os_mouse = FakeOsMouse()
         mouse._listener.start_if_necessary()
         assert mouse._os_mouse.listening
 
@@ -58,8 +58,7 @@ class TestMouse(unittest.TestCase):
     def flush_events(self):
         self.wait_for_events_queue()
         events = list(self.events)
-        # Ugly, but required to work in Python2. Python3 has list.clear
-        del self.events[:]
+        self.events.clear()
         return events
 
     def press(self, button=LEFT):

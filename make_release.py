@@ -1,7 +1,7 @@
 """
 This little guy streamlines the release process of Python packages.
 
-By running `python3 make_release.py` it'll do the following tasks automatically:
+By running `python make_release.py` it'll do the following tasks automatically:
 
 - Update README by calling `make_readme.sh` if this file exists.
 - Check PyPI RST long_description syntax.
@@ -22,11 +22,10 @@ Suggested way to organize your project for a smooth process:
 - Use raw semantic versioning for CHANGES.md and PyPI (e.g. 2.3.1), and prepend 'v' for git tags and releases (e.g. v2.3.1).
 
 """
-import re
-import sys
-import os
-from subprocess import run, check_output
 import atexit
+import os
+import re
+from subprocess import check_output, run
 import requests
 import mouse
 

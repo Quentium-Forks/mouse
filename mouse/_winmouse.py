@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
-import ctypes
 import time
-from ctypes import c_short, c_char, c_uint8, c_int32, c_int, c_uint, c_uint32, c_long, byref, Structure, CFUNCTYPE, POINTER
-from ctypes.wintypes import DWORD, BOOL, HHOOK, MSG, LPWSTR, WCHAR, WPARAM, LPARAM
-LPMSG = POINTER(MSG)
-
 import atexit
 
 from ._mouse_event import ButtonEvent, WheelEvent, MoveEvent, LEFT, RIGHT, MIDDLE, X, X2, UP, DOWN, DOUBLE, WHEEL, HORIZONTAL, VERTICAL
 
-#user32 = ctypes.windll.user32
+# This part is just declaring Win32 API structures using ctypes. In C
+# this would be simply #include "windows.h".
+
+import ctypes
+from ctypes import c_short, c_char, c_uint8, c_int32, c_int, c_uint, c_uint32, c_long, byref, Structure, CFUNCTYPE, POINTER
+from ctypes.wintypes import DWORD, BOOL, HHOOK, MSG, LPWSTR, WCHAR, WPARAM, LPARAM
+
+LPMSG = POINTER(MSG)
+
 user32 = ctypes.WinDLL('user32', use_last_error = True)
 
 class MSLLHOOKSTRUCT(Structure):
